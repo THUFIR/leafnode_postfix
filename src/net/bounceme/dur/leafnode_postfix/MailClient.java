@@ -1,6 +1,7 @@
 package net.bounceme.dur.leafnode_postfix;
 
 import java.io.IOException;
+import static java.lang.System.out;
 import java.util.Properties;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -21,16 +22,18 @@ public class MailClient extends Authenticator {
     public MailClient(UserHost userHost) {
         String user = userHost.getUser();
         String host = userHost.getHost();
+        String password = userHost.getPassword();
         boolean debug = userHost.isDebug();
         from = user + '@' + host;
-        authentication = new PasswordAuthentication(user, user);
+        authentication = new PasswordAuthentication(user, password);
         Properties props = new Properties();
         props.put("mail.user", user);
         props.put("mail.host", host);
         props.put("mail.debug", debug ? "true" : "false");
         props.put("mail.store.protocol", "pop3");
         props.put("mail.transport.protocol", "smtp");
-        session = Session.getDefaultInstance(props);
+        //session = Session.getInstance(props);
+        session = Session.getInstance(props, this);
     }
 
     @Override
@@ -62,9 +65,10 @@ public class MailClient extends Authenticator {
                 (show ? "Show" : "")
                 + (show && clear ? " and " : "")
                 + (clear ? "Clear" : "");
-        System.out.println(action + " INBOX for " + from);
+        out.println(action + " INBOX for " + from);
         Store store = session.getStore();
         store.connect();
+        out.println(store.getDefaultFolder());
         Folder root = store.getDefaultFolder();
         Folder inbox = root.getFolder("inbox");
         inbox.open(Folder.READ_WRITE);
