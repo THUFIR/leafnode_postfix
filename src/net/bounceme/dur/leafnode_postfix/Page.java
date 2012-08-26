@@ -1,16 +1,7 @@
 package net.bounceme.dur.leafnode_postfix;
 
-
-
-//add collection of Article or something here
-//make Observable?
-//just make more complex and usable
-//aaargh, git. you're passwords are killing me
-//lesse what happens now
-
-//ok, now using ssh for passwords
-
 import java.util.logging.Logger;
+import javax.mail.Folder;
 
 public class Page {
 
@@ -24,8 +15,8 @@ public class Page {
     private Page() {
     }
 
-    public Page(Newsgroup newsgroup) {
-        folderFullName = newsgroup.getNewsgroup();
+    public Page(Folder newsgroup) {
+        folderFullName = newsgroup.getFullName();
         //max = database.getMaxMessageNumber(newsgroup);
         int tempMin = max - delta;
         min = (tempMin > 0) ? tempMin : 1;

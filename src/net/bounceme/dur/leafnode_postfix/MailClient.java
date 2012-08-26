@@ -40,7 +40,7 @@ public class MailClient extends Authenticator {
     public void sendMessage(Message m) throws MessagingException, IOException {
         MimeMessage msg = new MimeMessage(session);
         InternetAddress address = new InternetAddress("thufir@dur");
-        msg.addRecipient(Message.RecipientType.TO, address);
+        msg.setRecipient(Message.RecipientType.TO, address);
         msg.setSubject(m.getSubject());
         Multipart mp = null;
         msg.setText(m.getContent().toString());
