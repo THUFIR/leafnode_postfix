@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package dur.bounceme.net.leafnode_postfix;
+package net.bounceme.dur.leafnode_postfix;
 
 /**
  *
