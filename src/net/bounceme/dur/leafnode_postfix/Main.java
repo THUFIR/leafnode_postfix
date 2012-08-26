@@ -1,19 +1,14 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package net.bounceme.dur.leafnode_postfix;
 
-/**
- *
- * @author thufir
- */
+import static java.lang.System.out;
+
 public class Main {
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
-        // TODO code application logic here
+        Main m = new Main();
+    }
+
+    private Main() {
+        out.println("hello world");
     }
 }
