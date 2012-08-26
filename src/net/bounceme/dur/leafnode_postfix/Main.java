@@ -19,7 +19,7 @@ public class Main {
         out.println(folders);
         MailClient mc = new MailClient("user", "host");
         mc.sendMessage("thufir@dur", "some subj", folders.toString());
-        Newsgroup newsgroup = new Newsgroup(folders.get(0).getFullName());
+        Newsgroup newsgroup = new Newsgroup(folders.get(0));
         Page page = new Page(newsgroup);
         List<Message> messages = u.getMessages(page);
         for (Message m : messages) {
