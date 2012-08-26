@@ -5,7 +5,9 @@ import static java.lang.System.out;
 import java.util.Properties;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 public class MailClient extends Authenticator {
 
@@ -38,12 +40,17 @@ public class MailClient extends Authenticator {
     }
 
     public void sendMessage(Message m) throws MessagingException, IOException {
-        MimeMessage msg = new MimeMessage(session);
+        Message msg = new MimeMessage(session);
         InternetAddress address = new InternetAddress("thufir@dur");
         msg.setRecipient(Message.RecipientType.TO, address);
         msg.setSubject(m.getSubject());
-        Multipart mp = null;
-        msg.setText(m.getContent().toString());
+        //msg.setText(m.getContent().toString());
+        Multipart mp = new MimeMultipart();
+        BodyPart part = new MimeBodyPart();
+        //part.setHeader("Content-Type", "text/html");
+        part.setContent(m.getContent(), "text/html");
+        mp.addBodyPart(part);
+        msg.setContent(mp);
         out.println(m.getRecipients(Message.RecipientType.TO));
         Transport.send(msg);
     }

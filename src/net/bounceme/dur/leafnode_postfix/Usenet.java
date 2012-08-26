@@ -37,8 +37,7 @@ public enum Usenet {
         setFolders(Arrays.asList(root.listSubscribed()));
     }
 
-    public List<Message> getMessages(Page page) throws Exception {
-        Newsgroup newsgroup = new Newsgroup(page);
+    public List<Message> getMessages(Newsgroup newsgroup) throws Exception {
         LOG.fine("fetching.." + newsgroup);
         folder = root.getFolder(newsgroup.getNewsgroup());
         folder.open(Folder.READ_ONLY);

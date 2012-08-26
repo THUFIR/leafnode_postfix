@@ -1,71 +1,30 @@
 package net.bounceme.dur.leafnode_postfix;
 
-import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.logging.Logger;
 import javax.mail.Folder;
-import javax.persistence.*;
 
+public class Newsgroup {
 
-@Entity
-@Table(name = "newsgroups")
-public class Newsgroup implements Serializable {
-
-    private static final long serialVersionUID = 1L;
     private static final Logger LOG = Logger.getLogger(Newsgroup.class.getName());
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Column //@Unique @UniqueConstraint interface..?
     private String newsgroup;
-    @OneToMany(mappedBy = "newsgroup", cascade = CascadeType.PERSIST)
-    private Set<Article> articles = new HashSet<>();
+    private int min;
+    private int max;
+    private int delta = 20;
+    private int index;
 
-    public Newsgroup() {
-        //should not create a newsgroup without a Folder
+    private Newsgroup() {
     }
 
     public Newsgroup(Folder folder) {
         newsgroup = folder.getFullName();
-        LOG.fine(newsgroup);
-    }
-    public Newsgroup(Page page) {
-        newsgroup = page.getFolderFullName();
-        LOG.fine(newsgroup);
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Newsgroup)) {
-            return false;
-        }
-        Newsgroup other = (Newsgroup) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        //max = database.getMaxMessageNumber(newsgroup);
+        int tempMin = max - delta;
+        min = (tempMin > 0) ? tempMin : 1;
     }
 
     @Override
     public String toString() {
-        return getNewsgroup();
+        return getNewsgroup() + " max\t" + getMax();
     }
 
     public String getNewsgroup() {
@@ -74,5 +33,37 @@ public class Newsgroup implements Serializable {
 
     public void setNewsgroup(String newsgroup) {
         this.newsgroup = newsgroup;
+    }
+
+    public int getMin() {
+        return min;
+    }
+
+    public void setMin(int min) {
+        this.min = min;
+    }
+
+    public int getMax() {
+        return max;
+    }
+
+    public void setMax(int max) {
+        this.max = max;
+    }
+
+    public int getDelta() {
+        return delta;
+    }
+
+    public void setDelta(int delta) {
+        this.delta = delta;
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
     }
 }
