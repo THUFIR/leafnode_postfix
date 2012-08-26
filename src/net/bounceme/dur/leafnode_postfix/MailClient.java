@@ -4,10 +4,10 @@ import java.io.IOException;
 import static java.lang.System.out;
 import java.util.Properties;
 import javax.mail.*;
+import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-public class MailClient
-        extends Authenticator {
+public class MailClient extends Authenticator {
 
     public static final int SHOW_MESSAGES = 1;
     public static final int CLEAR_MESSAGES = 2;
@@ -17,12 +17,10 @@ public class MailClient
     protected Session session;
     protected PasswordAuthentication authentication;
 
-    public MailClient(String user, String host) {
-        this(user, host, false);
-        out.println(user + host);
-    }
-
-    public MailClient(String user, String host, boolean debug) {
+    public MailClient(UserHost userHost) {
+        String user = userHost.getUser();
+        String host = userHost.getHost();
+        boolean debug = userHost.isDebug();
         from = user + '@' + host;
         authentication = new PasswordAuthentication(user, user);
         Properties props = new Properties();
@@ -31,7 +29,6 @@ public class MailClient
         props.put("mail.debug", debug ? "true" : "false");
         props.put("mail.store.protocol", "pop3");
         props.put("mail.transport.protocol", "smtp");
-        //session = Session.getInstance(props, this);
         session = Session.getDefaultInstance(props);
     }
 
@@ -40,13 +37,14 @@ public class MailClient
         return authentication;
     }
 
-    public void sendMessage(String to, String subject, String content)
-            throws MessagingException {
-        out.println("SENDING message from " + from + " to " + to);
+    public void sendMessage(Message m) throws MessagingException, IOException {
         MimeMessage msg = new MimeMessage(session);
-        msg.addRecipients(Message.RecipientType.TO, to);
-        msg.setSubject(subject);
-        msg.setText(content);
+        InternetAddress address = new InternetAddress("thufir@dur");
+        msg.addRecipient(Message.RecipientType.TO, address);
+        msg.setSubject(m.getSubject());
+        Multipart mp = null;
+        msg.setText(m.getContent().toString());
+        out.println(m.getRecipients(Message.RecipientType.TO));
         Transport.send(msg);
     }
 
