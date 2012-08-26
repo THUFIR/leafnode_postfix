@@ -1,21 +1,22 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package net.bounceme.dur.leafnode_postfix;
 
-/**
- *
- * @author thufir
- */
-class Newsgroup {
+public class Newsgroup {
 
-    Newsgroup(Page page) {
-        throw new UnsupportedOperationException("Not yet implemented");
+    private String newsgroup;
+
+    public Newsgroup(String newsgroup) {
+        this.newsgroup = newsgroup;
     }
 
-    String getNewsgroup() {
-        throw new UnsupportedOperationException("Not yet implemented");
+    public Newsgroup(Page page) {
+        newsgroup = page.getFolderFullName();
     }
-    
+
+    public String getNewsgroup() {
+        return newsgroup;
+    }
+
+    public void setNewsgroup(String newsgroup) {
+        this.newsgroup = newsgroup;
+    }
 }
