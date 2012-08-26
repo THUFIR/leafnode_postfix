@@ -1,7 +1,6 @@
 package net.bounceme.dur.leafnode_postfix;
 
 import java.io.IOException;
-import static java.lang.System.out;
 import java.util.Properties;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -39,20 +38,17 @@ public class MailClient extends Authenticator {
         return authentication;
     }
 
-    public void sendMessage(Message m) throws MessagingException, IOException {
-        Message msg = new MimeMessage(session);
+    public void sendMessage(Message post) throws MessagingException, IOException {
+        Message message = new MimeMessage(session);
         InternetAddress address = new InternetAddress("thufir@dur");
-        msg.setRecipient(Message.RecipientType.TO, address);
-        msg.setSubject(m.getSubject());
-        //msg.setText(m.getContent().toString());
+        message.setRecipient(Message.RecipientType.TO, address);
+        message.setSubject(post.getSubject());
         Multipart mp = new MimeMultipart();
         BodyPart part = new MimeBodyPart();
-        //part.setHeader("Content-Type", "text/html");
-        part.setContent(m.getContent(), "text/html");
+        part.setContent(post.getContent(), "text/html");
         mp.addBodyPart(part);
-        msg.setContent(mp);
-        out.println(m.getRecipients(Message.RecipientType.TO));
-        Transport.send(msg);
+        message.setContent(mp);
+        Transport.send(message);
     }
 
     public void checkInbox(int mode)
