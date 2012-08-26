@@ -2,13 +2,13 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package leafnode_postfix;
+package dur.bounceme.net.leafnode_postfix;
 
 /**
  *
  * @author thufir
  */
-public class Leafnode_postfix {
+public class Main {
 
     /**
      * @param args the command line arguments
